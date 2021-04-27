@@ -1,5 +1,20 @@
+.bg {
+        position: relative;
+    //  background: url('../../assets/bg.png') no-repeat center;
+    // background: url(/static/img/bg.e55d59b.png) no-repeat center;
+    //  background-size: cover;
+    img {
+        width: 100%;
+    }
+}
 .jc-echarts {
-    height: 800px;
+    position: absolute;
+    height: 76%;
+    width: 47%;
+    top: 19%;
+    right: 0;
+    left: 10p;
+    padding-right: 33px;
     .h100 {
         height: 100%;
     }

@@ -1,12 +1,15 @@
 <template>
-	<div class="jc-echarts">
-		<bar0 :option="option" :_this='this'></bar0>
-	</div>
+		<div class="bg">
+			<img src="../../assets/bg.png" />
+			<div class="jc-echarts">
+				<bar0 :option="option" :_this='this'></bar0>
+			</div>
+		</div>
 </template>
 <script>
 	import bar0 from './charts.vue';
 	import { GDP0, electricity0 } from '@/assets/data/data.js';
-	import { numberToChinese, thousands, getCN,countryArr,keyToValue} from '@/common/common.js';
+	import { numberToChinese, thousands, getCN, countryArr, keyToValue } from '@/common/common.js';
 	export default {
 		name: '',
 		components: {
@@ -17,7 +20,8 @@
 			return {
 				option: {},
 				barData: {},
-				electricityArr: []
+				electricityArr: [],
+				bgImg: require('static/imgs/bg.png')
 			}
 		},
 		computed: {},
@@ -125,15 +129,15 @@
 				})
 				console.log(data, chinaData)
 				let objC = {};
-				countryArr.map(item=>{
-					objC[item.name]=item.short;
+				countryArr.map(item => {
+					objC[item.name] = item.short;
 				});
 				let option = {
 					grid: [{
 						top: 10,
 						bottom: 30,
 						left: 150,
-						right: 120
+						right: 130
 					}, {
 						bottom: 0,
 						left: 200
@@ -213,7 +217,7 @@
 							realtimeSort: true,
 							seriesLayoutBy: 'column',
 							type: 'bar',
-							barWidth: 28,
+							barWidth: 22,
 							itemStyle: {
 								normal: {
 									barBorderRadius: [0, 28, 28, 0],
@@ -348,11 +352,11 @@
 						return num;
 					}
 				}
-				const imgs = require.context('@/assets/imgs', true, /\.png$/);
+				const imgs = require.context('static/imgs', true, /\.png$/);
 				let CNs = imgs.keys().map((item, index) => {
 					return getCN(item);
 				})
-//				console.log(CNs);
+				//				console.log(CNs);
 				function updateYear(year, index) {
 					let source = data.find(item => {
 						return item.name == year
@@ -361,6 +365,7 @@
 					let objCValues = Object.values(objC);
 					let axisLabel = {
 						show: true,
+						margin: 1,
 						textStyle: {
 							fontSize: 14
 						},
@@ -370,17 +375,19 @@
 						},
 						rich: {
 							value: {
-								width: 50,
+								width: 58,
 								align: 'left',
+								color:'#fff'
 							},
 						}
 					};
 					objCKeys.map((item, index) => {
 						if(CNs.indexOf(item) > -1) {
-							let image0 = require(`static/imgs/${item}.png`);
+							//let image0 = require(`static/imgs/${item}.png`);
+							let image0 = `static/imgs/${item}.png`;
 							axisLabel.rich[objC[item]] = {
-								height: 40,
-								width: 40,
+								height: 22,
+								width: 22,
 								align: 'right',
 								backgroundColor: {
 									image: image0
@@ -440,7 +447,7 @@
 							ob.label = {
 								normal: {
 									show: true,
-									position: total2.length < 44 ? [10, 0] : 'right',
+									position: total2.length < 47 ? [10, 0] : 'right',
 									//									position:'right',
 									padding: [0, 0, 0, 10],
 									lineHeight: 20,
@@ -453,7 +460,7 @@
 									fontWeight: '600',
 									formatter: function(ps) {
 										//										console.log(ps)
-										return `全社会用电量\n${thousands(ps.data.value)}千瓦时`
+										return `全社会用电量\n${thousands(ps.data.value)}亿千瓦时`
 									}
 								}
 							}
