@@ -9,7 +9,7 @@
 <script>
 	import bar0 from './charts.vue';
 	import { GDP0, electricity0 } from '@/assets/data/data.js';
-	import { numberToChinese, thousands, getCN, countryArr, keyToValue } from '@/common/common.js';
+	import { numberToChinese, thousands, getCN, countryArr, keyToValue,nest } from '@/common/common.js';
 	export default {
 		name: '',
 		components: {
@@ -27,6 +27,15 @@
 		computed: {},
 		watch: {},
 		created() {
+		 const comments = [
+  { id: 1, parent_id: null },
+  { id: 2, parent_id: 1 },
+  { id: 3, parent_id: 1 },
+  { id: 4, parent_id: 2 },
+  { id: 5, parent_id: 4 }
+];
+			const nestedComments = nest(comments);
+			console.log(nestedComments)
 			let _this = this;
 			console.log(GDP0, electricity0);
 			if(electricity0) {
