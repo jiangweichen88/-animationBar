@@ -1,5 +1,5 @@
 <template>
-		<div class="bg">
+		<div class="bg" style="width: 38.40rem;height: 13.52rem">
 			<img src="../../assets/bg.png" />
 			<div class="jc-echarts">
 				<bar0 :option="option" :_this='this'></bar0>

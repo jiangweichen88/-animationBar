@@ -11,6 +11,7 @@ import axios from 'axios';　　
 Vue.prototype.$http = axios;
 import vueResource from 'vue-resource';
 Vue.use(vueResource);
+import rem from './common/rem.js'
 /* eslint-disable no-new */
 new Vue({
 	el: '#app',
