@@ -1,15 +1,15 @@
 <template>
-		<div class="bg" style="width: 38.40rem;height: 13.52rem">
-			<img src="../../assets/bg.png" />
-			<div class="jc-echarts">
-				<bar0 :option="option" :_this='this'></bar0>
-			</div>
+	<div class="bg" style="width: 38.40rem;height: 13.52rem">
+		<img src="../../assets/bg.png" />
+		<div class="jc-echarts">
+			<bar0 :option="option" @windowResize="windowResize" :_this='this'></bar0>
 		</div>
+	</div>
 </template>
 <script>
 	import bar0 from './charts.vue';
 	import { GDP0, electricity0 } from '@/assets/data/data.js';
-	import { numberToChinese, thousands, getCN, countryArr, keyToValue,nest } from '@/common/common.js';
+	import { numberToChinese, thousands, getCN, countryArr, keyToValue, nest, remTpx } from '@/common/common.js';
 	export default {
 		name: '',
 		components: {
@@ -21,19 +21,37 @@
 				option: {},
 				barData: {},
 				electricityArr: [],
-				bgImg: require('static/imgs/bg.png')
+				bgImg: require('static/imgs/bg.png'),
+				optionW:{
+					barWidth: remTpx(3840, 0.42),
+					iconWidth: remTpx(3840, 0.48),
+				}
 			}
 		},
 		computed: {},
 		watch: {},
 		created() {
-		 const comments = [
-  { id: 1, parent_id: null },
-  { id: 2, parent_id: 1 },
-  { id: 3, parent_id: 1 },
-  { id: 4, parent_id: 2 },
-  { id: 5, parent_id: 4 }
-];
+			const comments = [{
+					id: 1,
+					parent_id: null
+				},
+				{
+					id: 2,
+					parent_id: 1
+				},
+				{
+					id: 3,
+					parent_id: 1
+				},
+				{
+					id: 4,
+					parent_id: 2
+				},
+				{
+					id: 5,
+					parent_id: 4
+				}
+			];
 			const nestedComments = nest(comments);
 			console.log(nestedComments)
 			let _this = this;
@@ -90,10 +108,14 @@
 			this.getOption(this.barData);
 		},
 		mounted() {
-
+			let _this = this;
 		},
 		destroyed() {},
 		methods: {
+			windowResize(){
+			   this.option.series[0].barWidth=remTpx(3840, 0.42);
+			   this.optionW.iconWidth=remTpx(3840, 0.48,16);
+			},
 			getOption(dataAll) {
 				//	return 
 				let echarts = this.$echarts;
@@ -226,7 +248,7 @@
 							realtimeSort: true,
 							seriesLayoutBy: 'column',
 							type: 'bar',
-							barWidth: 22,
+							barWidth: this.optionW.barWidth,
 							itemStyle: {
 								normal: {
 									barBorderRadius: [0, 28, 28, 0],
@@ -386,7 +408,7 @@
 							value: {
 								width: 58,
 								align: 'left',
-								color:'#fff'
+								color: '#fff'
 							},
 						}
 					};
@@ -395,8 +417,8 @@
 							//let image0 = require(`static/imgs/${item}.png`);
 							let image0 = `static/imgs/${item}.png`;
 							axisLabel.rich[objC[item]] = {
-								height: 22,
-								width: 22,
+								height: _this.optionW.iconWidth,
+								width: _this.optionW.iconWidth,
 								align: 'right',
 								backgroundColor: {
 									image: image0

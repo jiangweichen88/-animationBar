@@ -26,7 +26,17 @@ export const nest = (items, id = null, link = 'parent_id') =>{
 		children: nest(items, item.id)
 	}));
 }
-	
+export function remTpx(width,rem,min,max){
+	let docEl = document.documentElement,
+		clientWidth = window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
+	if (!clientWidth) return;
+	let fontSize = 100 * (clientWidth / width);
+	if(min){
+		return (rem*fontSize)>min?rem*fontSize:min;
+	}else{
+		return rem*fontSize;
+	}
+}
 export function numberToChinese(number) { //数字转中文
 	let units = '个十百千万@#%亿^&~';
 	let chars = '零一二三四五六七八九';

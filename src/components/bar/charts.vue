@@ -21,7 +21,6 @@
 		watch: {
 			option: {
 				handler(newName, oldName) {
-//					console.log(this.$refs, this.option);
 					this.setOpt();
 				},
 				deep: true,
@@ -34,7 +33,8 @@
 		mounted() {
 			let _this = this;
 			window.onresize = function() {
-				_this.myChart.resize()
+				_this.$emit('windowResize');
+				_this.myChart.resize();
 			}
 		},
 		methods: {
@@ -45,7 +45,7 @@
 				if(!myChart) { // 如果不存在，就进行初始化。
 					myChart = this.$echarts.init(dom);
 				}
-				myChart.setOption(this.option);
+				myChart.setOption(this.option,true);
 				this.myChart = myChart;
 				myChart.on('click', function(params) {
 					console.log(params, that, that._this);

@@ -12,7 +12,7 @@ if (!clientWidth) return;
 
 docEl.style.fontSize = 100 * (clientWidth / 3840) + 'px';
 
-console.log(docEl.style.fontSize)
+//console.log(docEl.style.fontSize)
 
     };
 
