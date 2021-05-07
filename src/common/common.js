@@ -119,6 +119,13 @@ export const isBeforeDate = (dateA, dateB) => dateA < dateB;
 isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); // true
 /*对象end----------------*/
 
+/*字符串start-----------------*/
+//capitalize：首字母大写
+export const capitalize = ([first, ...rest]) =>
+  first.toUpperCase() + rest.join('');
+//capitalize('fooBar'); // 'FooBar'
+//capitalize('fooBar', true); // 'Foobar'
+/*字符串end-----------------*/
 /*数字start-----------------*/
 //生成指定范围的随机整数
 export const randomIntegerInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;

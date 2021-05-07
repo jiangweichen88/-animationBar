@@ -301,7 +301,8 @@
 									if(ps.name == '中国') {
 										//																				console.log(ps)
 										//										console.log(num)
-										return `{a|${ps.data[2]} 全球第${numberToChinese(num+1)}}`;
+										return `{a|${ps.data[2]}}`;
+//										全球第${numberToChinese(num+1)}
 									} else {
 										//										return ''
 										return `{b|${ps.data[2]}}`
@@ -382,16 +383,6 @@
 						}, (i - startIndex) * updateFrequency);
 					})(i);
 				}
-
-				function format(num) {
-					if(num >= 10000 * 100000000) {
-						return(num / 10000).toFixed(1) + '万亿';
-					} else if(num >= 1000) {
-						return(num / 1000).toFixed(1) + 'K';
-					} else {
-						return num;
-					}
-				}
 				const imgs = require.context('static/imgs', true, /\.png$/);
 				let CNs = imgs.keys().map((item, index) => {
 					return getCN(item);
@@ -467,7 +458,7 @@
 									fontSize: 14,
 									fontWeight: '600',
 									formatter: function(ps) {
-										return `${ps.seriesName}\n${thousands(ps.data.value)}亿元`
+										return `${ps.seriesName}\n${format(ps.data.value)}亿元`
 										console.log(ps)
 									}
 								}
@@ -475,6 +466,12 @@
 						}
 						seriesData.push(ob)
 					})
+					function format(num){
+						if(num>=10000){
+							num=(num/10000).toFixed(2)+'万';
+						};
+						return num
+					}
 					total2.forEach((item, index2) => {
 						let ob = {
 							value: item,
@@ -500,7 +497,7 @@
 									fontWeight: '600',
 									formatter: function(ps) {
 										//										console.log(ps)
-										return `全社会用电量\n${thousands(ps.data.value)}亿千瓦时`
+										return `全社会用电量\n${format(ps.data.value)}亿千瓦时`
 									}
 								}
 							}
