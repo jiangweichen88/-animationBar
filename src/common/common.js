@@ -1,3 +1,18 @@
+/*数组 start---------------*/
+//布尔全等判断
+export const all = (arr, fn = Boolean) => arr.every(fn);
+//all([4, 2, 3], x => x > 1); // true
+//all([1, 2, 3]); // true
+//平均数
+export const average = (...nums) => nums.reduce((acc, val) => acc + val, 0) / nums.length;
+//average(...[1, 2, 3]); // 2
+//average(1, 2, 3); // 2
+//数组对象属性平均数
+export const averageBy = (arr, fn) =>
+  arr.map(typeof fn === 'function' ? fn : val => val[fn]).reduce((acc, val) => acc + val, 0) /
+  arr.length;
+//averageBy([{ n: 4 }, { n: 2 }, { n: 8 }, { n: 6 }], o => o.n); // 5
+//averageBy([{ n: 4 }, { n: 2 }, { n: 8 }, { n: 6 }], 'n'); // 5
 export function compare(name, type) { //数组对象排序
 	return function(a, b) {
 		let value1 = a[name],
@@ -10,12 +25,23 @@ export function compare(name, type) { //数组对象排序
 
 	}
 }
+export const shuffle = ([...arr]) => {//随机排序数组
+  let m = arr.length;
+  while (m) {
+    const i = Math.floor(Math.random() * m--);
+    [arr[m], arr[i]] = [arr[i], arr[m]];
+  }
+  return arr;
+};
+
+//const foo = [1, 2, 3];
+//shuffle(foo); // [2, 3, 1], foo = [1, 2, 3]
 export const intersection = (a, b) => { //两数组的交集
 	const s = new Set(b);
 	return a.filter(x => s.has(x));
 };
-
-//递归扁平化数组 //deepFlatten([1, [2], [[3], 4], 5]); // [1,2,3,4,5]
+//递归扁平化数组 一维数组
+//deepFlatten([1, [2], [[3], 4], 5]); // [1,2,3,4,5]
 export const deepFlatten = arr => [].concat(...arr.map(v => (Array.isArray(v) ? deepFlatten(v) : v)));
 //根据parent_id生成树结构  const nestedComments = nest(comments); // [{ id: 1, parent_id: null, children: [...] }]
 export const nest = (items, id = null, link = 'parent_id') =>{
@@ -26,7 +52,110 @@ export const nest = (items, id = null, link = 'parent_id') =>{
 		children: nest(items, item.id)
 	}));
 }
-export function remTpx(width,rem,min,max){
+/*数组 end-----------------*/
+
+/*对象start---------------*/
+export function keyToValue(obj, ) { //key和value交换
+	var result = {};
+	for(let key in obj) {
+		let value = obj[key];
+		[value, key] = [key, value];
+		result[key] = value;
+	}
+	return result
+}
+export function omit(object, props = []) { //对象属性剔除
+	let res = {}
+	Object.keys(object).forEach(key => {
+		if(props.includes(key) === false) {
+			res[key] = typeof object[key] === 'object' && object[key] !== null ?
+				JSON.parse(JSON.stringify(object[key])) :
+				object[key]
+		}
+	})
+	return res
+}
+export const deepClone = data => { //对象深拷贝
+	var type = getObjType(data)
+	var obj
+	if(type === 'array') {
+		obj = []
+	} else if(type === 'object') {
+		obj = {}
+	} else {
+		// 不再具有下一层次
+		return data
+	}
+	if(type === 'array') {
+		for(var i = 0, len = data.length; i < len; i++) {
+			obj.push(deepClone(data[i]))
+		}
+	} else if(type === 'object') {
+		for(var key in data) {
+			obj[key] = deepClone(data[key])
+		}
+	}
+	return obj
+}
+export const equals = (a, b) => {//全等判断
+  if (a === b) return true;
+  if (a instanceof Date && b instanceof Date) return a.getTime() === b.getTime();
+  if (!a || !b || (typeof a !== 'object' && typeof b !== 'object')) return a === b;
+  if (a.prototype !== b.prototype) return false;
+  let keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) return false;
+  return keys.every(k => equals(a[k], b[k]));
+};
+//返回日期间的天数
+export const getDaysDiffBetweenDates = (dateInitial, dateFinal) =>
+  (dateFinal - dateInitial) / (1000 * 3600 * 24); 
+//getDaysDiffBetweenDates(new Date('2019-01-01'), new Date('2019-10-14'));
+//检查是否在某日期后
+export const isAfterDate = (dateA, dateB) => dateA > dateB;
+//isAfterDate(new Date(2010, 10, 21), new Date(2010, 10, 20)); // true
+
+//检查是否在某日期前
+export const isBeforeDate = (dateA, dateB) => dateA < dateB;
+isBeforeDate(new Date(2010, 10, 20), new Date(2010, 10, 21)); // true
+/*对象end----------------*/
+
+/*数字start-----------------*/
+//生成指定范围的随机整数
+export const randomIntegerInRange = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+//randomIntegerInRange(0, 5); // 3
+//生成指定范围的随机小数
+export const randomNumberInRange = (min, max) => Math.random() * (max - min) + min;
+//randomNumberInRange(2, 10); // 6.0211363285087005
+//四舍五入到指定位数
+export const round = (n, decimals = 0) => Number(`${Math.round(`${n}e${decimals}`)}e-${decimals}`);
+//round(1.005, 2); // 1.01
+//计算数组或多个数字的总和
+export const sum = (...arr) => [...arr].reduce((acc, val) => acc + val, 0);
+//sum(1, 2, 3, 4); // 10
+//sum(...[1, 2, 3, 4]); // 10
+/*数字end-----------------*/
+
+//runPromisesInSeries：依次运行多个Promises
+export const runPromisesInSeries = ps => ps.reduce((p, next) => p.then(next), Promise.resolve());
+//const delay = d => new Promise(r => setTimeout(r, d));
+//runPromisesInSeries([() => delay(1000), () => delay(2000)]);
+//依次执行每个Promises ，总共需要3秒钟才能完成
+export const scrollToTop = () => {//平滑滚动至顶部
+  const c = document.documentElement.scrollTop || document.body.scrollTop;
+  if (c > 0) {
+    window.requestAnimationFrame(scrollToTop);
+    window.scrollTo(0, c - c / 8);
+  }
+};
+//scrollToTop();
+export const smoothScroll = element =>  //滚动到指定元素区域
+  document.querySelector(element).scrollIntoView({
+    behavior: 'smooth'
+  });
+  
+//smoothScroll('#fooBar'); 
+//smoothScroll('.fooBar');
+export function remTpx(width,rem,min,max){//使用rem，width设计稿宽度、min不超过多少px
 	let docEl = document.documentElement,
 		clientWidth = window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;
 	if (!clientWidth) return;
@@ -99,15 +228,6 @@ export function getCN(v) { // 保留中文
 		return v.replace(regEx, '');
 	}
 }
-export function keyToValue(obj, ) { //key和value交换
-	var result = {};
-	for(let key in obj) {
-		let value = obj[key];
-		[value, key] = [key, value];
-		result[key] = value;
-	}
-	return result
-}
 export function formatDate(format = 'Y-M-D h:m', timestamp = Date.now()) { //日期格式化
 	let date = new Date(timestamp)
 	let dateInfo = {
@@ -135,39 +255,6 @@ export function getCookie(name) { //获取cookie值
 	var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
 	if(arr != null) return unescape(arr[2]);
 	return null;
-}
-export function omit(object, props = []) { //对象属性剔除
-	let res = {}
-	Object.keys(object).forEach(key => {
-		if(props.includes(key) === false) {
-			res[key] = typeof object[key] === 'object' && object[key] !== null ?
-				JSON.parse(JSON.stringify(object[key])) :
-				object[key]
-		}
-	})
-	return res
-}
-export const deepClone = data => { //对象深拷贝
-	var type = getObjType(data)
-	var obj
-	if(type === 'array') {
-		obj = []
-	} else if(type === 'object') {
-		obj = {}
-	} else {
-		// 不再具有下一层次
-		return data
-	}
-	if(type === 'array') {
-		for(var i = 0, len = data.length; i < len; i++) {
-			obj.push(deepClone(data[i]))
-		}
-	} else if(type === 'object') {
-		for(var key in data) {
-			obj[key] = deepClone(data[key])
-		}
-	}
-	return obj
 }
 export function isType(target, type) { //类型判断
 	let targetType = Object.prototype.toString.call(target).slice(8, -1).toLowerCase()

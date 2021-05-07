@@ -22,7 +22,7 @@
 				barData: {},
 				electricityArr: [],
 				bgImg: require('static/imgs/bg.png'),
-				optionW:{
+				optionW: {
 					barWidth: remTpx(3840, 0.42),
 					iconWidth: remTpx(3840, 0.48),
 				}
@@ -112,9 +112,10 @@
 		},
 		destroyed() {},
 		methods: {
-			windowResize(){
-			   this.option.series[0].barWidth=remTpx(3840, 0.42);
-			   this.optionW.iconWidth=remTpx(3840, 0.48,16);
+			windowResize() {
+				this.option.series[0].barWidth = remTpx(3840, 0.42);
+				this.optionW.iconWidth = remTpx(3840, 0.48, 10);
+				this.optionW.fontWidth = remTpx(3840, 24, 10);
 			},
 			getOption(dataAll) {
 				//	return 
@@ -294,20 +295,29 @@
 								valueAnimation: true,
 								fontFamily: 'monospace',
 								padding: [0, 0, 0, 10],
-								color: '#ff7200',
 								fontSize: 14,
 								fontWeight: '600',
 								formatter: (ps) => {
 									let num = ps.dataIndex;
 									if(ps.name == '中国') {
-										//										console.log(ps)
+										//																				console.log(ps)
 										//										console.log(num)
-										return `全球第${numberToChinese(num+1)}`;
+										return `{a|${ps.data[2]} 全球第${numberToChinese(num+1)}}`;
 									} else {
-										return ''
-										//return ps.data[2]
+										//										return ''
+										return `{b|${ps.data[2]}}`
 									}
-								}
+								},
+								 rich: {
+                                    a: {
+                                        color: '#ff7200',
+                                        fontSize: 13
+                                    },
+                                    b: {
+                                        color: 'rgb(41,176,255,1)',
+                                        fontSize: 13
+                                    }
+                               }
 							}
 						},
 						{
