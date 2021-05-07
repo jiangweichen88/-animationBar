@@ -21,7 +21,6 @@
 				option: {},
 				barData: {},
 				electricityArr: [],
-				bgImg: require('static/imgs/bg.png'),
 				optionW: {
 					barWidth: remTpx(3840, 0.42),
 					iconWidth: remTpx(3840, 0.48),
