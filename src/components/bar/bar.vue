@@ -1,14 +1,16 @@
 <template>
 	<div class="bg" style="width: 38.40rem;height: 13.52rem">
-		<img src="../../assets/bg.png" />
+		<img src="@/assets/bg.png" />
 		<div class="jc-echarts">
 			<bar0 :option="option" @windowResize="windowResize" :_this='this'></bar0>
+			<!--<bar0 :option="optionBar1Data"  @windowResize="windowResize" :_this='this'></bar0>-->
 		</div>
 	</div>
 </template>
 <script>
 	import bar0 from './charts.vue';
 	import { GDP0, electricity0 } from '@/assets/data/data.js';
+	import { optionBar1 } from './charts.js';
 	import { numberToChinese, thousands, getCN, countryArr, keyToValue, nest, remTpx } from '@/common/common.js';
 	export default {
 		name: '',
@@ -24,35 +26,13 @@
 				optionW: {
 					barWidth: remTpx(3840, 0.42),
 					iconWidth: remTpx(3840, 0.48),
-				}
+				},
+				optionBar1Data: {}
 			}
 		},
 		computed: {},
 		watch: {},
 		created() {
-			const comments = [{
-					id: 1,
-					parent_id: null
-				},
-				{
-					id: 2,
-					parent_id: 1
-				},
-				{
-					id: 3,
-					parent_id: 1
-				},
-				{
-					id: 4,
-					parent_id: 2
-				},
-				{
-					id: 5,
-					parent_id: 4
-				}
-			];
-			const nestedComments = nest(comments);
-			console.log(nestedComments)
 			let _this = this;
 			console.log(GDP0, electricity0);
 			if(electricity0) {
@@ -108,6 +88,8 @@
 		},
 		mounted() {
 			let _this = this;
+			this.optionBar1Data = optionBar1();
+			console.log(this.optionBar1Data)
 		},
 		destroyed() {},
 		methods: {
@@ -165,7 +147,7 @@
 				});
 				let option = {
 					grid: [{
-						top: 10,
+						top: 40,
 						bottom: 30,
 						left: 150,
 						right: 130
@@ -181,7 +163,8 @@
 					//					},
 					xAxis: [{
 						max: 'dataMax',
-						show: false,
+						show: true,
+						position:'top',
 						label: {
 							formatter: function(n) {
 								console.log(n)
@@ -192,7 +175,10 @@
 							show: false
 						},
 						axisLine: {
-							show: false
+							show: top,
+							lineStyle: {
+								color: '#FFF'
+							}
 						},
 						splitLine: {
 							show: false
@@ -302,22 +288,22 @@
 										//																				console.log(ps)
 										//										console.log(num)
 										return `{a|${ps.data[2]}}`;
-//										全球第${numberToChinese(num+1)}
+										//										全球第${numberToChinese(num+1)}
 									} else {
 										//										return ''
 										return `{b|${ps.data[2]}}`
 									}
 								},
-								 rich: {
-                                    a: {
-                                        color: '#ff7200',
-                                        fontSize: 13
-                                    },
-                                    b: {
-                                        color: 'rgb(41,176,255,1)',
-                                        fontSize: 13
-                                    }
-                               }
+								rich: {
+									a: {
+										color: '#ff7200',
+										fontSize: 13
+									},
+									b: {
+										color: 'rgb(41,176,255,1)',
+										fontSize: 13
+									}
+								}
 							}
 						},
 						{
@@ -466,9 +452,10 @@
 						}
 						seriesData.push(ob)
 					})
-					function format(num){
-						if(num>=10000){
-							num=(num/10000).toFixed(2)+'万';
+
+					function format(num) {
+						if(num >= 10000) {
+							num = (num / 10000).toFixed(2) + '万';
 						};
 						return num
 					}

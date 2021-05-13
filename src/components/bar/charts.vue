@@ -21,10 +21,11 @@
 		watch: {
 			option: {
 				handler(newName, oldName) {
+					console.log(22)
 					this.setOpt();
 				},
 				deep: true,
-				//	immediate: true,
+//				immediate: true,
 			}
 		},
 		created() {
@@ -47,6 +48,9 @@
 				}
 				myChart.setOption(this.option,true);
 				this.myChart = myChart;
+				setTimeout(()=>{
+					this.myChart.resize();
+				},50)
 				myChart.on('click', function(params) {
 					console.log(params, that, that._this);
 					let {
