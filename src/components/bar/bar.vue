@@ -175,7 +175,7 @@
 							show: false
 						},
 						axisLine: {
-							show: top,
+							show: false,
 							lineStyle: {
 								color: '#FFF'
 							}
