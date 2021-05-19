@@ -31,7 +31,15 @@
 			}
 		},
 		computed: {},
-		watch: {},
+		watch: {
+			option: {
+				handler(newName, oldName) {
+					
+				},
+				deep: true,
+				immediate: true,
+			}
+		},
 		created() {
 			let _this = this;
 			console.log(GDP0, electricity0);
@@ -147,7 +155,7 @@
 				});
 				let option = {
 					grid: [{
-						top: 40,
+						top: 30,
 						bottom: 30,
 						left: 150,
 						right: 130
@@ -164,11 +172,12 @@
 					xAxis: [{
 						max: 'dataMax',
 						show: true,
-						position:'top',
+						position: 'top',
+						data:[]
 						label: {
 							formatter: function(n) {
 								console.log(n)
-								return Math.round(n);
+								return Math.round(n)+'亿';
 							}
 						},
 						axisTick: {
